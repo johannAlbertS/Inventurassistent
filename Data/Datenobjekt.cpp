@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Klasse.h"
+#include "Datenobjekt.h"
 using namespace std;
 
 int Inventurdaten::Anzahl = 0;

@@ -1,88 +1,53 @@
 #include <iostream>
-#include <list>
-#include <fstream>
-#include <vector>
-#include <string>
 #include "Funktionen.h"
-#include "Klasse.h"
-
 using namespace std;
 
-void Listenfunktionen::anhaengen()
+void help()
 {
-  Inventurdaten tempObj;
-  cin >> tempObj;
-  l.push_back(tempObj);
-  tempObj.GroesserAnzahl();
+    cout << "This is Inventurassistent by Albert Scherezer" << endl
+         << "With this programm you can log what's in your fridge" << endl
+         << endl
+         << "Usuage:" << endl
+         << "./Inventurassistent [OPTION]" << endl
+         << endl 
+         << "You can run this programm in interactive mode or as a cli" << endl
+         << endl
+         << "For interactive mode use this option:" << endl
+         << "i: \t interactive mode" << endl
+         << endl
+         << "for the cli there these options:" << endl
+         << "einbuchen: \t put something in the fridge" << endl
+         << "ausbuchen: \t take something out of the fridge" << endl
+         << "ausgeben: \t see what's in your fridge" << endl
+         << "help: \t\t see this help" << endl;
 }
 
-//Falls leer entsprechende Meldungs, sonst iterieren und über DatenRaus() ausgeben, davor AnzahlRaus()
-void Listenfunktionen::ausgeben()
+void interactivemode(Listenfunktionen& f)
 {
-  if (l.empty())
-  {
-      cout << "Es werden aktuell keine Objekte gelagert\n";
-  }
-  else
-  {
-      list<Inventurdaten>::iterator it1 = begin(l);
-      it1->AnzahlRaus();
-      int Zaehler = 1;
-      for (auto it2 = begin(l); it2 != end(l); ++it2)
-      {
-          cout << Zaehler << ". " << endl;
-          it2->DatenRaus();
-          Zaehler++;
-      }
-  }
-}
-
-//Da in main.cpp ausgeben() vor loeschen() aufgerufen wird kommt keine Meldung wenn leer
-//Ansonsten Iterieren und loeschen
-void Listenfunktionen::loeschen()
-{
-  if (l.empty())
-  {
-     //Die Ausgabe dass es nichts gibt wird von ausgeben() uebernommen
-  }
-  else
-  {
-      cout << "Das wievielte Element soll raus? ";
-      int raus; cin >> raus;
-      list<Inventurdaten>::iterator it = begin(l);
-      for (int i = 0; i < raus - 1; i++) it++;
-      l.erase(it);
-  }
-}
-
-//Schreiben wenn etwas drin durch iterieren und nutzen des Streams
-void Listenfunktionen::schreiben()
-{
-  ofstream datei("Daten.txt"); 
-  if (l.empty())
-  {
-      //Nichts tun...
-  }
-  else
-  {
-      for (auto it = begin(l); it != end(l); ++it)
-      {
-          datei << *it;
-      }
-  }
-}
-
-//Über Stream lesen und push_backen()
-void Listenfunktionen::lesen()
-{
-  ifstream lesen("Daten.txt");
-  Inventurdaten puffer;
-  while (lesen >> puffer)
-  {
-      l.push_back(puffer);
-  }
-  if (l.empty() == true)
-  {
-     //Nichts tun
-  }
+    bool Abbruch = false;
+    do
+    {
+        cout << "Was willst du machen? Einbuchen(n), Ausbuchen(r), ausgeben(a), oder beenden(x)\n";
+        char Wahl;
+        cin >> Wahl;
+        switch (Wahl)
+        {
+            case 'n':
+                f.anhaengen();
+                break;
+            case 'r':
+                f.ausgeben();
+                f.loeschen();
+                break;
+            case 'a':
+                f.ausgeben();
+                break;
+            case 'x':
+                f.schreiben();
+                Abbruch = true;
+                break;
+            default:
+                cout << "n, r, a oder x\n";
+        }
+    } while (Abbruch == false);
 }
