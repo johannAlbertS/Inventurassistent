@@ -2,8 +2,8 @@
 #include <ostream>
 #include <string>
 #include <list>
-#include "Data/Datenobjekt.h"
-#include "Data/Listenobjekt.h"
+#include "Datahandling/Datenobjekt.h"
+#include "Datahandling/Listenobjekt.h"
 #include "Funktionen.h"
 #include <string.h>
 using namespace std;
@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
     {
         f.ausgeben();
     }
-    else if(strcmp(argv[1], "loeschen") == 0)
+    else if(strcmp(argv[1], "ausbuchen") == 0)
     {
-        f.ausgeben();
+        //f.ausgeben();
         f.loeschen();
         f.schreiben();
     }

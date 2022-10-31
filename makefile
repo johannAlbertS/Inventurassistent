@@ -1,16 +1,16 @@
 all: Inventurassistent
 
-Inventurassistent: main.o Data/Listenobjekt.o Data/Datenobjekt.o Funktionen.o
+Inventurassistent: main.o Datahandling/Listenobjekt.o Datahandling/Datenobjekt.o Funktionen.o
 	g++ Funktionen.o Listenobjekt.o Datenobjekt.o main.o -o Inventurassistent
 
-main.o: main.cpp Funktionen.h
+main.o: main.cpp Funktionen.h Datahandling/Listenobjekt.h
 	g++ -c main.cpp
 
-Data/Datenobjekt.o: Data/Datenobjekt.cpp Data/Datenobjekt.h
-	g++ -c Data/Datenobjekt.cpp
+Datahandling/Datenobjekt.o: Datahandling/Datenobjekt.cpp Datahandling/Datenobjekt.h
+	g++ -c Datahandling/Datenobjekt.cpp
 
-Data/Listenobjekt.o: Data/Listenobjekt.cpp Data/Listenobjekt.h
-	g++ -c Data/Listenobjekt.cpp
+Datahandling/Listenobjekt.o: Datahandling/Listenobjekt.cpp Datahandling/Listenobjekt.h
+	g++ -c Datahandling/Listenobjekt.cpp
 
 Funktionen.o: Funktionen.cpp Funktionen.h
 	g++ -c Funktionen.cpp

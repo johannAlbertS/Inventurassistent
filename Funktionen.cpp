@@ -36,7 +36,7 @@ void interactivemode(Listenfunktionen& f)
                 f.anhaengen();
                 break;
             case 'r':
-                f.ausgeben();
+                //f.ausgeben();
                 f.loeschen();
                 break;
             case 'a':
