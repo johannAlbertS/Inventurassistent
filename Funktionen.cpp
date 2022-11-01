@@ -16,9 +16,12 @@ void help()
          << "i: \t interactive mode" << endl
          << endl
          << "for the cli there these options:" << endl
-         << "einbuchen: \t put something in the fridge" << endl
-         << "ausbuchen: \t take something out of the fridge" << endl
+         << "einbuchen: \t put something in a list" << endl
+         << "\t \t with 'daten' into the fridge, with 'sollbestand' into the list what you want to have" << endl
+         << "ausbuchen: \t take something out of a list" << endl
+         << "\t \t with 'daten' out of the fridge, with 'sollbestand' out of the list what you want to have" << endl
          << "ausgeben: \t see what's in your fridge" << endl
+         << "\t \t with 'daten' what's in the fridge, with 'nachkaufen' what you need to buy and with 'sollbestand' what you want to have"  << endl
          << "help: \t\t see this help" << endl;
 }
 

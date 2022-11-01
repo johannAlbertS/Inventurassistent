@@ -99,7 +99,6 @@ void Listenfunktionen::ausgeben()
   else
   {
       list<Inventurdaten>::iterator it1 = begin(l);
-      //it1->AnzahlRaus();
       if(l.size() == 1) cout << "Es wird aktuell ein Objekt " << Verb << endl;
       else cout << "Es werden aktuelle " << l.size() << " Objekte " << Verb << endl;
       int Zaehler = 1;
