@@ -11,11 +11,15 @@ using namespace std;
 Listenfunktionen::Listenfunktionen()
 {
   Dateiname = "";
+  Verb = "";
+  zeigeDatum = true;
 }
 
-Listenfunktionen::Listenfunktionen(const string& dateiname)
+Listenfunktionen::Listenfunktionen(const string& dateiname, const string& verb, bool zD)
 {
   Dateiname = dateiname;
+  Verb = verb;
+  zeigeDatum = zD;
 }
 
 void Listenfunktionen::anhaengen()
@@ -35,10 +39,54 @@ void Listenfunktionen::anhaengen()
   if(gefunden != true)
   {
     l.push_back(tempObj);
-    tempObj.GroesserAnzahl();
   }
   //l.push_back(tempObj);
   //tempObj.GroesserAnzahl();
+}
+
+void Listenfunktionen::anhaengenmitgleich(Inventurdaten& i)
+{
+  bool gefunden = false;
+  for(auto it = begin(l); it != end(l); ++it)
+  {
+    if(it->operator==(i) == true)
+    {
+      it->operator=(i);
+      gefunden = true;
+    }
+  }
+  if(gefunden != true)
+  {
+    l.push_back(i);
+  }
+}
+
+void Listenfunktionen::Listenvergleich(Listenfunktionen& mit, Listenfunktionen& zu)
+{
+  for(auto it = begin(l); it != end(l); ++it)
+  {
+    bool gefunden = false;
+    for(auto it2 = begin(mit.l); it2 != end(mit.l); ++it2)
+    {
+      if(*it2 == *it && (it->operator-(*it2)) > 0)
+      {
+        Inventurdaten i = it->minus(*it2);
+        zu.anhaengenmitgleich(i);
+        gefunden = true;
+        break;
+      }
+      else if(*it == *it && it->operator-(*it2) <= 0)
+      {
+        //Nichts tun
+        gefunden = true;
+        break;
+      }
+    }
+    if(gefunden == false)
+    {
+      zu.anhaengenmitgleich(*it);
+    }
+  }
 }
 
 //Falls leer entsprechende Meldungs, sonst iterieren und über DatenRaus() ausgeben, davor AnzahlRaus()
@@ -51,13 +99,27 @@ void Listenfunktionen::ausgeben()
   else
   {
       list<Inventurdaten>::iterator it1 = begin(l);
-      it1->AnzahlRaus();
+      //it1->AnzahlRaus();
+      if(l.size() == 1) cout << "Es wird aktuell ein Objekt " << Verb << endl;
+      else cout << "Es werden aktuelle " << l.size() << " Objekte " << Verb << endl;
       int Zaehler = 1;
-      for (auto it2 = begin(l); it2 != end(l); ++it2)
+      if(zeigeDatum == true)
       {
+        for (auto it2 = begin(l); it2 != end(l); ++it2)
+        {
           cout << Zaehler << ". " << endl;
-          it2->DatenRaus();
+          it2->DatenRaus(true);
           Zaehler++;
+        }
+      }
+      else
+      {
+        for (auto it2 = begin(l); it2 != end(l); ++it2)
+        {
+          cout << Zaehler << ". " << endl;
+          it2->DatenRaus(false);
+          Zaehler++;
+        }
       }
   }
 }

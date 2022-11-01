@@ -23,22 +23,20 @@ public:
     static int Anzahl;
     //Konstruktor
     Inventurdaten();
+    Inventurdaten(string&, double, string&);
     //Daten ausgeben
-    void DatenRaus();
+    void DatenRaus(bool);
     double MengeRaus();
-    //Die Anzahl ausgeben
-    void AnzahlRaus();
-    //Anzahl imkrementieren/dekrementieren
-    void KleinerAnzahl();
-    void GroesserAnzahl();
     //Formartierte Aus/Eingabe über Streams
     friend ofstream& operator<<(ofstream&, Inventurdaten&);
     friend ifstream& operator>>(ifstream&, Inventurdaten&);
     //Operatoren
     bool operator==(Inventurdaten&);
+    Inventurdaten& operator=(Inventurdaten&);
     Inventurdaten& operator+=(Inventurdaten&);
     Inventurdaten& operator-=(Inventurdaten&);
     double operator-(Inventurdaten&);
+    Inventurdaten minus(Inventurdaten&);
     //Eingabe des Datums
     void Datumseingabe();
     //Ein/Ausgabe in Files über Streams

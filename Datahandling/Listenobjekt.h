@@ -12,12 +12,17 @@ class Listenfunktionen
     list<Inventurdaten> l;
     //In welcher Datei die Daten gespeichert werden sollen
     string Dateiname;
+    string Verb;
+    bool zeigeDatum;
   public:
     //Konstruktor
     Listenfunktionen();
-    Listenfunktionen(const string&);
+    Listenfunktionen(const string&, const string&, bool);
     //Element an Liste anhängen 
     void anhaengen();
+    void anhaengenmitgleich(Inventurdaten&);
+    //Für die Einkaufsliste
+    void Listenvergleich(Listenfunktionen&, Listenfunktionen&);
     //Ausgeben und Loeschen
     void ausgeben();
     void loeschen();

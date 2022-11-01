@@ -5,5 +5,5 @@ using namespace std;
 #ifndef __FUNKTIONEN_H__
 #define __FUNKTIONEN_H__
 void help();
-void interactivemode(Listenfunktionen&);
+void interactivemode(Listenfunktionen&, Listenfunktionen&, Listenfunktionen&);
 #endif

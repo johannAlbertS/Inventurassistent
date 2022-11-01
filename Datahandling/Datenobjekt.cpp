@@ -10,40 +10,32 @@ int Inventurdaten::Anzahl = 0;
 //Konstruktor
 Inventurdaten::Inventurdaten() : Art(""), Menge(0), Einheit(""), Verfallsdatum(0) {}
 
-void Inventurdaten::DatenRaus()
+Inventurdaten::Inventurdaten(string& a, double m, string& e) : Art(a), Menge(m), Einheit(e), Verfallsdatum(0) {}
+
+void Inventurdaten::DatenRaus(bool mitDatum)
 {
   cout << Menge << " " << Einheit << " " << Art << endl;
   time_t now = time(0);
-  if(Verfallsdatum == 0)
+  if(mitDatum == true)
   {
-    cout << "Kein Verfallsdatum angegeben\n";
-  }
-  else if(Verfallsdatum < now && Verfallsdatum != 0)
-  {
-    cout << "Bereits abgelaufen\n";
-  }
-  else
-  {
-    cout << "Verfällt am: " << ctime(&Verfallsdatum) << endl;
+    if(Verfallsdatum == 0)
+    {
+      cout << "Kein Verfallsdatum angegeben\n";
+    }
+    else if(Verfallsdatum < now && Verfallsdatum != 0)
+    {
+      cout << "Bereits abgelaufen\n";
+    }
+    else
+    {
+      cout << "Verfällt am: " << ctime(&Verfallsdatum) << endl;
+    } 
   }
 }
 
 double Inventurdaten::MengeRaus()
 {
   return Menge;
-}
-
-//Ausgabe je nach ob 1 oder mehr/weniger 
-void Inventurdaten::AnzahlRaus()
-{
-	if (Anzahl != 1)
-	{
-		cout << "Es werden aktuell " << Anzahl << " Objekte gelagert\n";
-	}
-	else
-	{
-		cout << "Es wird aktuell ein Objekt gelagert\n";
-	}
 }
 
 //Streams zum formartierten eingeben
@@ -116,6 +108,11 @@ bool Inventurdaten::operator==(Inventurdaten &i)
   if(this->Art == i.Art && this->Einheit == i.Einheit) return true;
   else return false;
 }
+Inventurdaten& Inventurdaten::operator=(Inventurdaten& i)
+{
+  this->Art = i.Art; this->Menge = i.Menge; this->Einheit = i.Einheit; this->Verfallsdatum = 0;
+  return *this;
+}
 
 Inventurdaten& Inventurdaten::operator+=(Inventurdaten &i)
 {
@@ -138,15 +135,10 @@ double Inventurdaten::operator-(Inventurdaten& i)
   return this->Menge - i.Menge;
 }
 
-//Inkrementieren und Dekrementieren
-void Inventurdaten::KleinerAnzahl()
+Inventurdaten Inventurdaten::minus(Inventurdaten& i)
 {
-  Anzahl -= 1;
-}
-
-void Inventurdaten::GroesserAnzahl()
-{
-	Anzahl += 1;
+  Inventurdaten temp(i.Art, this->Menge - i.Menge, i.Einheit);
+  return temp;
 }
 
 //Schreiben von Daten in File über Streams
