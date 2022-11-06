@@ -25,46 +25,58 @@ int main(int argc, char *argv[])
     //Die jeweiligen CLI-Kommandos
     if(strcmp(argv[1], "einbuchen") == 0)
     {
-        if(strcmp(argv[2], "daten") == 0)
+        if(argc >= 3)
         {
-            Data.anhaengen();
-            Data.schreiben();
-            Soll.Listenvergleich(Data, Muss);
-            Muss.schreiben();
+            if(strcmp(argv[2], "daten") == 0)
+            {
+                Data.anhaengen();
+                Data.schreiben();
+                Soll.Listenvergleich(Data, Muss);
+                Muss.schreiben();
+            }
+            else if(strcmp(argv[2], "sollbestand") == 0)
+            {
+                Soll.anhaengen();
+                Soll.schreiben();
+                Soll.Listenvergleich(Data, Muss);
+                Muss.schreiben();
+            }
+            else cout << "Falsches Argument\n";
         }
-        else if(strcmp(argv[2], "sollbestand") == 0)
-        {
-            Soll.anhaengen();
-            Soll.schreiben();
-            Soll.Listenvergleich(Data, Muss);
-            Muss.schreiben();
-        }
-        else cout << "Falsches Argument\n";
+        else cout << "Du mussst noch die Liste spezifizieren!\n";
     }
     else if(strcmp(argv[1], "ausgeben") == 0)
     {
-        if(strcmp(argv[2], "daten") == 0) Data.ausgeben();
-        else if(strcmp(argv[2], "nachkaufen") == 0) Muss.ausgeben();
-        else if(strcmp(argv[2], "sollbestand") == 0) Soll.ausgeben();
-        else cout << "Falsches Argument\n";
+        if(argc >= 3)
+        {
+            if(strcmp(argv[2], "daten") == 0) Data.ausgeben();
+            else if(strcmp(argv[2], "nachkaufen") == 0) Muss.ausgeben();
+            else if(strcmp(argv[2], "sollbestand") == 0) Soll.ausgeben();
+            else cout << "Falsches Argument\n";
+        }
+        else cout << "Du musst noch die Liste spezifizieren!\n";
     }
     else if(strcmp(argv[1], "ausbuchen") == 0)
     {
-        if(strcmp(argv[2], "daten") == 0)
+        if(argc >= 3)
         {
-            Data.loeschen();
-            Data.schreiben();
-            Soll.Listenvergleich(Data, Muss);
-            Muss.schreiben();
+            if(strcmp(argv[2], "daten") == 0)
+            {
+                Data.loeschen();
+                Data.schreiben();
+                Soll.Listenvergleich(Data, Muss);
+                Muss.schreiben();
+            }
+            else if(strcmp(argv[2], "sollbestand") == 0)
+            {
+                Soll.loeschen();
+                Soll.schreiben();
+                Soll.Listenvergleich(Data, Muss);
+                Muss.schreiben();
+            }
+            else cout << "Falsches Argument\n";
         }
-        else if(strcmp(argv[2], "sollbestand") == 0)
-        {
-            Soll.loeschen();
-            Soll.schreiben();
-            Soll.Listenvergleich(Data, Muss);
-            Muss.schreiben();
-        }
-        else cout << "Falsches Argument\n";
+        else cout << "Du musst noch die Liste spezifizieren!\n";
     }
     else if(strcmp(argv[1], "i") == 0)
     {
