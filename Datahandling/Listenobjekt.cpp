@@ -78,6 +78,7 @@ void Listenfunktionen::Listenvergleich(Listenfunktionen& mit, Listenfunktionen& 
       else if(*it == *it && it->operator-(*it2) <= 0)
       {
         //Nichts tun
+        zu.loeschen(*it);
         gefunden = true;
         break;
       }
@@ -94,7 +95,7 @@ void Listenfunktionen::ausgeben()
 {
   if (l.empty())
   {
-      cout << "Es werden aktuell keine Objekte gelagert\n";
+      cout << "Es werden aktuell keine Objekte " << Verb << endl;
   }
   else
   {
@@ -155,6 +156,25 @@ void Listenfunktionen::loeschen()
   {
     cout << "Dieses Objekt ist nicht in der Tiefkühltruhe\n";
   }
+}
+
+bool Listenfunktionen::loeschen(Inventurdaten& i)
+{
+  bool gefunden = false;
+  for(auto it = begin(l); it != end(l); ++it)
+  {
+    if(it->operator==(i) == true)
+    {
+      l.erase(it);
+      gefunden = true;
+      break;
+    }
+  }
+  if(gefunden == true)
+  {
+    return true;
+  }
+  else return false;
 }
 
 //Schreiben wenn etwas drin durch iterieren und nutzen des Streams
