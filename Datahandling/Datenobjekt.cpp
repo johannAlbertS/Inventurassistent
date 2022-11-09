@@ -12,6 +12,8 @@ Inventurdaten::Inventurdaten() : Art(""), Menge(0), Einheit(""), Verfallsdatum(0
 
 Inventurdaten::Inventurdaten(string& a, double m, string& e) : Art(a), Menge(m), Einheit(e), Verfallsdatum(0) {}
 
+Inventurdaten::Inventurdaten(string& a, double m, string& e, time_t v) : Art(a), Menge(m), Einheit(e), Verfallsdatum(v) {}
+
 void Inventurdaten::DatenRaus(bool mitDatum)
 {
   cout << Menge << " " << Einheit << " " << Art << endl;

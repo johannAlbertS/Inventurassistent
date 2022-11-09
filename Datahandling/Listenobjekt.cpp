@@ -10,14 +10,16 @@ using namespace std;
 
 Listenfunktionen::Listenfunktionen()
 {
-  Dateiname = "";
+  Databasefile = "";
+  Liste = "";
   Verb = "";
   zeigeDatum = true;
 }
 
-Listenfunktionen::Listenfunktionen(const string& dateiname, const string& verb, bool zD)
+Listenfunktionen::Listenfunktionen(const string& dbfile, const string& verb, const string& liste, bool zD)
 {
-  Dateiname = dateiname;
+  Databasefile = dbfile;
+  Liste = liste;
   Verb = verb;
   zeigeDatum = zD;
 }
@@ -180,7 +182,7 @@ bool Listenfunktionen::loeschen(Inventurdaten& i)
 //Schreiben wenn etwas drin durch iterieren und nutzen des Streams
 void Listenfunktionen::schreiben()
 {
-  ofstream datei(Dateiname.c_str()); 
+  ofstream datei(Databasefile.c_str()); 
   if (l.empty())
   {
       //Nichts tun...
@@ -197,7 +199,7 @@ void Listenfunktionen::schreiben()
 //Über Stream lesen und push_backen()
 void Listenfunktionen::lesen()
 {
-  ifstream lesen(Dateiname.c_str());
+  ifstream lesen(Databasefile.c_str());
   Inventurdaten puffer;
   while (lesen >> puffer)
   {

@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <ctime>
+#include <sqlite3.h>
 using namespace std;
 
 #ifndef __INVENTURDATEN__
@@ -24,6 +25,7 @@ public:
     //Konstruktor
     Inventurdaten();
     Inventurdaten(string&, double, string&);
+    Inventurdaten(string&, double, string&, time_t);
     //Daten ausgeben
     void DatenRaus(bool);
     double MengeRaus();

@@ -1,7 +1,5 @@
 #include <iostream>
-#include <ostream>
 #include <string>
-#include <list>
 #include "Datahandling/Datenobjekt.h"
 #include "Datahandling/Listenobjekt.h"
 #include "Funktionen.h"
@@ -16,9 +14,9 @@ int main(int argc, char *argv[])
         cout << "No Argument given, aborting\n";
         return 0;
     }
-    Listenfunktionen Data("Daten.txt", "gelagert", true);
-    Listenfunktionen Soll("Soll.txt", "als benötigt gespeichert", false);
-    Listenfunktionen Muss("Muss.txt", "gebraucht", false);
+    Listenfunktionen Data("Daten.txt", "gelagert", "ist", true);
+    Listenfunktionen Soll("Soll.txt", "als benötigt gespeichert", "soll", false);
+    Listenfunktionen Muss("Muss.txt", "gebraucht", "muss", false);
     Data.lesen();
     Soll.lesen();
     Muss.lesen();

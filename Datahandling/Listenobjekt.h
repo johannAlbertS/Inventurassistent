@@ -1,6 +1,8 @@
 #include <iostream>
 #include <list>
 #include "Datenobjekt.h"
+#include <sqlite3.h>
+#include <string>
 using namespace std;
 
 #ifndef __FUNKTIONEN__
@@ -11,13 +13,15 @@ class Listenfunktionen
     //Liste an Objekten mit den Daten
     list<Inventurdaten> l;
     //In welcher Datei die Daten gespeichert werden sollen
-    string Dateiname;
+    string Liste;
+    string Databasefile;
     string Verb;
     bool zeigeDatum;
+    sqlite3* db;
   public:
     //Konstruktor
     Listenfunktionen();
-    Listenfunktionen(const string&, const string&, bool);
+    Listenfunktionen(const string&, const string&, const string&, bool);
     //Element an Liste anhängen 
     void anhaengen();
     void anhaengenmitgleich(Inventurdaten&);
