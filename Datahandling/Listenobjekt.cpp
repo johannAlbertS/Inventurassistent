@@ -1,24 +1,25 @@
 #include <iostream>
-#include <iterator>
 #include <list>
-#include <fstream>
-#include <vector>
+//#include <fstream>
+#include <sqlite3.h>
 #include <string>
 #include "Listenobjekt.h"
+#include <cstring>
+#include <sstream>
 
 using namespace std;
 
 Listenfunktionen::Listenfunktionen()
 {
-  Databasefile = "";
+  //Databasefile = "";
   Liste = "";
   Verb = "";
   zeigeDatum = true;
 }
 
-Listenfunktionen::Listenfunktionen(const string& dbfile, const string& verb, const string& liste, bool zD)
+Listenfunktionen::Listenfunktionen(sqlite3* database, const string& verb, const string& liste, bool zD)
 {
-  Databasefile = dbfile;
+  db = database;
   Liste = liste;
   Verb = verb;
   zeigeDatum = zD;
@@ -182,7 +183,7 @@ bool Listenfunktionen::loeschen(Inventurdaten& i)
 //Schreiben wenn etwas drin durch iterieren und nutzen des Streams
 void Listenfunktionen::schreiben()
 {
-  ofstream datei(Databasefile.c_str()); 
+  /*ofstream datei(Databasefile.c_str()); 
   if (l.empty())
   {
       //Nichts tun...
@@ -193,20 +194,36 @@ void Listenfunktionen::schreiben()
       {
           datei << *it;
       }
-  }
+  }*/
 }
 
 //Über Stream lesen und push_backen()
 void Listenfunktionen::lesen()
 {
-  ifstream lesen(Databasefile.c_str());
-  Inventurdaten puffer;
-  while (lesen >> puffer)
+  sqlite3_stmt* leseBefehle;
+  string liststatement = "select rowid from liste where titel = '" + Liste + "'";
+  const char * liststatementStr = liststatement.c_str();
+  sqlite3_prepare_v2(db, liststatementStr, strlen(liststatementStr), &leseBefehle, NULL);
+  long listid = 0;
+  if(sqlite3_step(leseBefehle) == SQLITE_ROW)
   {
-      l.push_back(puffer);
+    listid = sqlite3_column_int64(leseBefehle, 0);
   }
-  if (l.empty() == true)
+  string datastatement = "select art, menge, einheit, verfallsdatum from daten where listid = " + to_string(listid);
+  const char * datastatementStr = datastatement.c_str();
+  sqlite3_prepare_v2(db, datastatementStr, strlen(datastatementStr), &leseBefehle, NULL);
+  while(sqlite3_step(leseBefehle) == SQLITE_ROW)
   {
-     //Nichts tun
+    double menge;
+    time_t verfallsdatum;
+    const unsigned char * art = sqlite3_column_text(leseBefehle, 0);
+    const unsigned char * einheit = sqlite3_column_text(leseBefehle, 2);
+    menge = sqlite3_column_double(leseBefehle, 1);
+    verfallsdatum = sqlite3_column_int(leseBefehle, 3);
+    ostringstream artstream, einheitstream; string arts, einheits;
+    artstream << art; arts = artstream.str();
+    einheitstream << einheit; einheits = einheitstream.str();
+    Inventurdaten puffer(arts, menge, einheits, verfallsdatum);
+    l.push_back(puffer);
   }
 }

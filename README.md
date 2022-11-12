@@ -1,8 +1,8 @@
 # Inventurassistent
 ## Zweck
 Dieses Projekt ist dazu gedacht um
-- 1. Den Überblick über den Inhalt der Tiefkühltruhe zu behalten
-- 2. Sich auf Basis von Sollbeständen Einkaufslisten erstellen zu lassen
+1. Den Überblick über den Inhalt der Tiefkühltruhe zu behalten
+2. Sich auf Basis von Sollbeständen Einkaufslisten erstellen zu lassen
 
 ## Wie man es kriegt
 Man klone das Repository mittels ```git clone https://github.com/johannAlbertS/Inventurassistent``` in einen beliebigen

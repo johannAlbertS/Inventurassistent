@@ -4,6 +4,7 @@
 #include "Datahandling/Listenobjekt.h"
 #include "Funktionen.h"
 #include <string.h>
+#include <sqlite3.h>
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -14,9 +15,11 @@ int main(int argc, char *argv[])
         cout << "No Argument given, aborting\n";
         return 0;
     }
-    Listenfunktionen Data("Daten.txt", "gelagert", "ist", true);
-    Listenfunktionen Soll("Soll.txt", "als benötigt gespeichert", "soll", false);
-    Listenfunktionen Muss("Muss.txt", "gebraucht", "muss", false);
+    sqlite3* database;
+    sqlite3_open("test.db", &database);
+    Listenfunktionen Data(database, "gelagert", "ist", true);
+    Listenfunktionen Soll(database, "als benötigt gespeichert", "soll", false);
+    Listenfunktionen Muss(database, "gebraucht", "muss", false);
     Data.lesen();
     Soll.lesen();
     Muss.lesen();

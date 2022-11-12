@@ -14,14 +14,14 @@ class Listenfunktionen
     list<Inventurdaten> l;
     //In welcher Datei die Daten gespeichert werden sollen
     string Liste;
-    string Databasefile;
+    //string Databasefile;
     string Verb;
     bool zeigeDatum;
     sqlite3* db;
   public:
     //Konstruktor
     Listenfunktionen();
-    Listenfunktionen(const string&, const string&, const string&, bool);
+    Listenfunktionen(sqlite3*, const string&, const string&, bool);
     //Element an Liste anhängen 
     void anhaengen();
     void anhaengenmitgleich(Inventurdaten&);

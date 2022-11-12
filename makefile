@@ -1,7 +1,7 @@
 all: Inventurassistent
 
 Inventurassistent: main.o Datahandling/Listenobjekt.o Datahandling/Datenobjekt.o Funktionen.o
-	g++ Funktionen.o Listenobjekt.o Datenobjekt.o main.o -o Inventurassistent
+	g++ Funktionen.o Listenobjekt.o Datenobjekt.o main.o -o Inventurassistent -l sqlite3
 
 main.o: main.cpp Funktionen.h Datahandling/Listenobjekt.h
 	g++ -c main.cpp
