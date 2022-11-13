@@ -22,3 +22,5 @@ Folgenden Befehle müssen in der Sqlite-Konsole angegeben werden um das Schema z
 - ```select rowid, titel from liste;```
 - ```insert into daten values ('Rindergulasch', 500, 'g', 0, 1);```
 - ```select rowid, art, menge, einheit, verfallsdatum from daten;```
+- ```delete from daten where art = 'Schweinehaxe' and einheit = 'g' and listid = 1;```
+- ```update daten set menge = 700 where art = 'Rindergulasch' and einheit = 'g' and listid = 1;```

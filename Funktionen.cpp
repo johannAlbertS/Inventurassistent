@@ -43,9 +43,6 @@ void interactivemode(Listenfunktionen& data, Listenfunktionen& soll, Listenfunkt
         switch(Wahl)
         {
             case 'x':
-                data.schreiben();
-                soll.schreiben();
-                muss.schreiben();
                 Abbruch = true;
                 break;
             case 'a': data.ausgeben();
@@ -89,27 +86,5 @@ void interactivemode(Listenfunktionen& data, Listenfunktionen& soll, Listenfunkt
             default: 
                cout << "x, a, s, k oder b sonst nichts\n";
         }
-        /*cout << "Was willst du machen? Einbuchen(n), Ausbuchen(r), ausgeben(a), oder beenden(x)\n";
-        char Wahl;
-        cin >> Wahl;
-        switch (Wahl)
-        {
-            case 'n':
-                f.anhaengen();
-                break;
-            case 'r':
-                //f.ausgeben();
-                f.loeschen();
-                break;
-            case 'a':
-                f.ausgeben();
-                break;
-            case 'x':
-                f.schreiben();
-                Abbruch = true;
-                break;
-            default:
-                cout << "n, r, a oder x\n";
-        }*/
     } while (Abbruch == false);
 }

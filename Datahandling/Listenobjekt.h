@@ -33,9 +33,8 @@ class Listenfunktionen
     //Ausgeben und Loeschen
     void ausgeben();
     void loeschen();
-    bool loeschen(Inventurdaten&);
-    //Aus File lesen und schreiben
-    void schreiben();
+    void loeschen(Inventurdaten&);
+    //Aus Datenbank lesen
     void lesen();
 };
 #endif

@@ -1,6 +1,5 @@
 #include <iostream>
 #include <list>
-//#include <fstream>
 #include <sqlite3.h>
 #include <string>
 #include "Listenobjekt.h"
@@ -48,15 +47,15 @@ void Listenfunktionen::anhaengen()
     if(it->operator==(tempObj) == true)
     {
       it->operator+=(tempObj);
+      it -> update(db, listid);
       gefunden = true;
     }
   }
   if(gefunden != true)
   {
     l.push_back(tempObj);
+    tempObj.insert(db, listid);
   }
-  //l.push_back(tempObj);
-  //tempObj.GroesserAnzahl();
 }
 
 void Listenfunktionen::anhaengenmitgleich(Inventurdaten& i)
@@ -67,12 +66,14 @@ void Listenfunktionen::anhaengenmitgleich(Inventurdaten& i)
     if(it->operator==(i) == true)
     {
       it->operator=(i);
+      it -> update(db, listid);
       gefunden = true;
     }
   }
   if(gefunden != true)
   {
     l.push_back(i);
+    i.insert(db, listid);
   }
 }
 
@@ -92,7 +93,6 @@ void Listenfunktionen::Listenvergleich(Listenfunktionen& mit, Listenfunktionen& 
       }
       else if(*it == *it && it->operator-(*it2) <= 0)
       {
-        //Nichts tun
         zu.loeschen(*it);
         gefunden = true;
         break;
@@ -116,7 +116,7 @@ void Listenfunktionen::ausgeben()
   {
       list<Inventurdaten>::iterator it1 = begin(l);
       if(l.size() == 1) cout << "Es wird aktuell ein Objekt " << Verb << endl;
-      else cout << "Es werden aktuelle " << l.size() << " Objekte " << Verb << endl;
+      else cout << "Es werden aktuell " << l.size() << " Objekte " << Verb << endl;
       int Zaehler = 1;
       if(zeigeDatum == true)
       {
@@ -145,7 +145,6 @@ void Listenfunktionen::loeschen()
 {
   if (l.empty())
   {
-    //Die Ausgabe dass es nichts gibt wird von ausgeben() uebernommen
     cout << "Nichts drinnen\n";
   }
   Inventurdaten tempObj;
@@ -157,11 +156,13 @@ void Listenfunktionen::loeschen()
     if(it->operator==(tempObj) == true && it->operator-(tempObj) > 0)
     {
       it->operator-=(tempObj);
+      it -> update(db, listid);
       gefunden = true;
       break;
     }
     else if(it->operator==(tempObj) == true && it->operator-(tempObj) <= 0)
     {
+      it -> remove(db, listid);
       l.erase(it);
       gefunden = true;
       break;
@@ -173,43 +174,20 @@ void Listenfunktionen::loeschen()
   }
 }
 
-bool Listenfunktionen::loeschen(Inventurdaten& i)
+void Listenfunktionen::loeschen(Inventurdaten& i)
 {
-  bool gefunden = false;
   for(auto it = begin(l); it != end(l); ++it)
   {
     if(it->operator==(i) == true)
     {
+      it -> remove(db, listid);
       l.erase(it);
-      gefunden = true;
       break;
     }
   }
-  if(gefunden == true)
-  {
-    return true;
-  }
-  else return false;
 }
 
-//Schreiben wenn etwas drin durch iterieren und nutzen des Streams
-void Listenfunktionen::schreiben()
-{
-  /*ofstream datei(Databasefile.c_str()); 
-  if (l.empty())
-  {
-      //Nichts tun...
-  }
-  else
-  {
-      for (auto it = begin(l); it != end(l); ++it)
-      {
-          datei << *it;
-      }
-  }*/
-}
-
-//Über Stream lesen und push_backen()
+//Statement erstellen und ausführen sollange es noch was neues gibt
 void Listenfunktionen::lesen()
 {
   sqlite3_stmt* leseBefehle;

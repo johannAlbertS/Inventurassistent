@@ -19,9 +19,7 @@ private:
     //Das Verfallsdatum
     time_t Verfallsdatum;
 public:
-    //Dies speichert die Anzahl aller Klassen
-    static int Anzahl;
-    //Konstruktor
+    //Konstruktoren
     Inventurdaten();
     Inventurdaten(string&, double, string&);
     Inventurdaten(string&, double, string&, time_t);
@@ -43,6 +41,10 @@ public:
     //Ein/Ausgabe in Files über Streams
     friend ostream& operator<<(ostream&, Inventurdaten&);
     friend istream& operator>>(istream&, Inventurdaten&);
+    //Funktionen zum Schreiben in der Datenbank
+    void insert(sqlite3*, int);
+    void remove(sqlite3*, int);
+    void update(sqlite3*, int);
     //Destruktor
     ~Inventurdaten();
 };

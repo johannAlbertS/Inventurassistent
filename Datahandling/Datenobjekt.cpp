@@ -1,12 +1,11 @@
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include "Datenobjekt.h"
 using namespace std;
 
-int Inventurdaten::Anzahl = 0;
-
-//Konstruktor
+//Konstruktoren
 Inventurdaten::Inventurdaten() : Art(""), Menge(0), Einheit(""), Verfallsdatum(0) {}
 
 Inventurdaten::Inventurdaten(string& a, double m, string& e) : Art(a), Menge(m), Einheit(e), Verfallsdatum(0) {}
@@ -45,8 +44,6 @@ istream& operator>>(istream& is, Inventurdaten& i)
   cout << "Was ist es? "; is >> i.Art; //getline(is, i.Art);
   cout << "Wie viel davon? ";
   is >> i.Menge >> i.Einheit;
-  //Erst wenn es mit Daten befüllt wird soll es in die Anzahl aufgenommen werden
-  i.Anzahl += 1;
   return is;
 }
 
@@ -153,12 +150,53 @@ ofstream& operator<<(ofstream& of, Inventurdaten& i)
 ifstream& operator>>(ifstream& is, Inventurdaten& i)
 {
   is >> i.Art >> i.Menge >> i.Einheit >> i.Verfallsdatum;
-  i.Anzahl += 1;
   return is;
+}
+
+//Funktionen zum Schreiben in der Datenbank
+//Prinzip Statement erzeugen, mit den eigenen Daten anreichern, ausführen und schauen ob es erfolgreich war
+void Inventurdaten::insert(sqlite3* db, int listid)
+{
+  sqlite3_stmt* stmt;
+  string statement = "insert into daten values ('" + Art + "', " + to_string(Menge) + ", '" + Einheit + "', " +
+                      to_string(Verfallsdatum) + ", " + to_string(listid) + ")";
+  const char * statementStr = statement.c_str();
+  sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
+  if(sqlite3_step(stmt) == SQLITE_DONE)
+  {
+    cout << "Succesful inserted values\n";
+  }
+  else cout << "There was a failure\n";
+}
+
+void Inventurdaten::remove(sqlite3* db, int listid)
+{
+  sqlite3_stmt* stmt;
+  string statement = "delete from daten where art = '" + Art + "' and einheit = '" + Einheit + "' and listid = " + 
+                      to_string(listid);
+  const char * statementStr = statement.c_str();
+  sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
+  if(sqlite3_step(stmt) == SQLITE_DONE)
+  {
+    cout << "Succesful removed values\n"; 
+  }
+  else cout << "There was a failue\n";
+}
+
+void Inventurdaten::update(sqlite3* db, int listid)
+{
+  sqlite3_stmt* stmt;
+  string statement = "update daten set menge = " + to_string(Menge) + ", verfallsdatum = " + to_string(Verfallsdatum) + 
+                     " where art = '" + Art + "' and einheit = '" + Einheit + "' and listid = " + to_string(listid);
+  const char * statementStr = statement.c_str();
+  sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
+  if(sqlite3_step(stmt) == SQLITE_DONE)
+  {
+    cout << "Succesful updated values\n";
+  }
+  else cout << "There was a failure\n";
 }
 
 //Destruktor
 Inventurdaten::~Inventurdaten()
-{
-	Anzahl--;
-}
+{}
