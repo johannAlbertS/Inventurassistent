@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
         return 0;
     }
     sqlite3* database;
-    sqlite3_open("test.db", &database);
+    sqlite3_open("Daten.db", &database);
     Listenfunktionen Data(database, "gelagert", "ist", true);
     Listenfunktionen Soll(database, "als benötigt gespeichert", "soll", false);
     Listenfunktionen Muss(database, "gebraucht", "muss", false);

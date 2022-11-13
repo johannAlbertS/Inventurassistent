@@ -162,11 +162,6 @@ void Inventurdaten::insert(sqlite3* db, int listid)
                       to_string(Verfallsdatum) + ", " + to_string(listid) + ")";
   const char * statementStr = statement.c_str();
   sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
-  if(sqlite3_step(stmt) == SQLITE_DONE)
-  {
-    cout << "Succesful inserted values\n";
-  }
-  else cout << "There was a failure\n";
 }
 
 void Inventurdaten::remove(sqlite3* db, int listid)
@@ -176,11 +171,6 @@ void Inventurdaten::remove(sqlite3* db, int listid)
                       to_string(listid);
   const char * statementStr = statement.c_str();
   sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
-  if(sqlite3_step(stmt) == SQLITE_DONE)
-  {
-    cout << "Succesful removed values\n"; 
-  }
-  else cout << "There was a failue\n";
 }
 
 void Inventurdaten::update(sqlite3* db, int listid)
@@ -190,11 +180,6 @@ void Inventurdaten::update(sqlite3* db, int listid)
                      " where art = '" + Art + "' and einheit = '" + Einheit + "' and listid = " + to_string(listid);
   const char * statementStr = statement.c_str();
   sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
-  if(sqlite3_step(stmt) == SQLITE_DONE)
-  {
-    cout << "Succesful updated values\n";
-  }
-  else cout << "There was a failure\n";
 }
 
 //Destruktor
