@@ -17,7 +17,10 @@ class Listenfunktionen
     //string Databasefile;
     string Verb;
     bool zeigeDatum;
+    //Die Datenbankanbindunb
     sqlite3* db;
+    //Hier wird gespeichert unter welchem Foreign Key die Daten der Liste in der Tabelle daten zu finden sind.
+    int listid;
   public:
     //Konstruktor
     Listenfunktionen();

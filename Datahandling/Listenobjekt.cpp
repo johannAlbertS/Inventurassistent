@@ -6,6 +6,7 @@
 #include "Listenobjekt.h"
 #include <cstring>
 #include <sstream>
+#include <thread>
 
 using namespace std;
 
@@ -19,6 +20,17 @@ Listenfunktionen::Listenfunktionen()
 
 Listenfunktionen::Listenfunktionen(sqlite3* database, const string& verb, const string& liste, bool zD)
 {
+  thread t([&] () {sqlite3_stmt* idstmt;
+                      string idstatement = "select rowid from liste where titel = '" + liste + "'";
+                      const char * idstatementStr = idstatement.c_str();
+                      sqlite3_prepare_v2(database, idstatementStr, strlen(idstatementStr), &idstmt, NULL);
+                      if(sqlite3_step(idstmt) == SQLITE_ROW)
+                      {
+                        listid = sqlite3_column_int64(idstmt, 0);
+                      }
+                      else cout << "Es ist etwas schiefgelaufen\n";}
+          );
+  t.join();
   db = database;
   Liste = liste;
   Verb = verb;
@@ -201,25 +213,15 @@ void Listenfunktionen::schreiben()
 void Listenfunktionen::lesen()
 {
   sqlite3_stmt* leseBefehle;
-  string liststatement = "select rowid from liste where titel = '" + Liste + "'";
-  const char * liststatementStr = liststatement.c_str();
-  sqlite3_prepare_v2(db, liststatementStr, strlen(liststatementStr), &leseBefehle, NULL);
-  long listid = 0;
-  if(sqlite3_step(leseBefehle) == SQLITE_ROW)
-  {
-    listid = sqlite3_column_int64(leseBefehle, 0);
-  }
   string datastatement = "select art, menge, einheit, verfallsdatum from daten where listid = " + to_string(listid);
   const char * datastatementStr = datastatement.c_str();
   sqlite3_prepare_v2(db, datastatementStr, strlen(datastatementStr), &leseBefehle, NULL);
   while(sqlite3_step(leseBefehle) == SQLITE_ROW)
   {
-    double menge;
-    time_t verfallsdatum;
     const unsigned char * art = sqlite3_column_text(leseBefehle, 0);
     const unsigned char * einheit = sqlite3_column_text(leseBefehle, 2);
-    menge = sqlite3_column_double(leseBefehle, 1);
-    verfallsdatum = sqlite3_column_int(leseBefehle, 3);
+    double menge = sqlite3_column_double(leseBefehle, 1);
+    time_t verfallsdatum = sqlite3_column_int(leseBefehle, 3);
     ostringstream artstream, einheitstream; string arts, einheits;
     artstream << art; arts = artstream.str();
     einheitstream << einheit; einheits = einheitstream.str();
