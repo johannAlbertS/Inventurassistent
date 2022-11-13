@@ -162,6 +162,7 @@ void Inventurdaten::insert(sqlite3* db, int listid)
                       to_string(Verfallsdatum) + ", " + to_string(listid) + ")";
   const char * statementStr = statement.c_str();
   sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
+  if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Da ist etwas schiefgelaufen\n";
 }
 
 void Inventurdaten::remove(sqlite3* db, int listid)
@@ -171,6 +172,7 @@ void Inventurdaten::remove(sqlite3* db, int listid)
                       to_string(listid);
   const char * statementStr = statement.c_str();
   sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
+  if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Da ist etwas schiefgelaufen\n";
 }
 
 void Inventurdaten::update(sqlite3* db, int listid)
@@ -180,6 +182,7 @@ void Inventurdaten::update(sqlite3* db, int listid)
                      " where art = '" + Art + "' and einheit = '" + Einheit + "' and listid = " + to_string(listid);
   const char * statementStr = statement.c_str();
   sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
+  if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Da ist etwas schiefgelaufen\n";
 }
 
 //Destruktor
