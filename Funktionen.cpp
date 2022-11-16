@@ -68,7 +68,7 @@ void interactivemode(Listenfunktionen& data, Listenfunktionen& soll, Listenfunkt
                 soll.Listenvergleich(data, muss);
                 break;
             case 'r':
-                cout << "In die Tiefkühltruhe(t) oder in den Sollbestand(s)?\n";
+                cout << "Aus der Tiefkühltruhe(t) oder aus dem Sollbestand(s)?\n";
                 cin >> Wahlstr2;
                 Wahl2 = Wahlstr2[0];
                 switch(Wahl2)

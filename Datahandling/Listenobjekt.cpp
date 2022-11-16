@@ -22,7 +22,7 @@ Listenfunktionen::Listenfunktionen(sqlite3* database, const string& verb, const 
   thread t([&] () {sqlite3_stmt* idstmt;
                       string idstatement = "select rowid from liste where titel = '" + liste + "'";
                       const char * idstatementStr = idstatement.c_str();
-                      sqlite3_prepare_v2(database, idstatementStr, strlen(idstatementStr), &idstmt, NULL);
+                      sqlite3_prepare_v2(database, idstatementStr, static_cast<int>(strlen(idstatementStr)), &idstmt, NULL);
                       if(sqlite3_step(idstmt) == SQLITE_ROW)
                       {
                         listid = sqlite3_column_int64(idstmt, 0);
@@ -193,7 +193,7 @@ void Listenfunktionen::lesen()
   sqlite3_stmt* leseBefehle;
   string datastatement = "select art, menge, einheit, verfallsdatum from daten where listid = " + to_string(listid);
   const char * datastatementStr = datastatement.c_str();
-  sqlite3_prepare_v2(db, datastatementStr, strlen(datastatementStr), &leseBefehle, NULL);
+  sqlite3_prepare_v2(db, datastatementStr, static_cast<int>(strlen(datastatementStr)), &leseBefehle, NULL);
   while(sqlite3_step(leseBefehle) == SQLITE_ROW)
   {
     const unsigned char * art = sqlite3_column_text(leseBefehle, 0);

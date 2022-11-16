@@ -28,7 +28,9 @@ void Inventurdaten::DatenRaus(bool mitDatum)
     }
     else
     {
-      cout << "Verfällt am: " << ctime(&Verfallsdatum) << endl;
+      char datum[26];
+      ctime_r(&Verfallsdatum, datum);
+      cout << "Verfällt am: " << datum << '\n';
     } 
   }
 }
@@ -161,7 +163,7 @@ void Inventurdaten::insert(sqlite3* db, int listid)
   string statement = "insert into daten values ('" + Art + "', " + to_string(Menge) + ", '" + Einheit + "', " +
                       to_string(Verfallsdatum) + ", " + to_string(listid) + ")";
   const char * statementStr = statement.c_str();
-  sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
+  sqlite3_prepare_v2(db, statementStr, static_cast<int>(strlen(statementStr)), &stmt, NULL);
   if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Da ist etwas schiefgelaufen\n";
 }
 
@@ -171,7 +173,7 @@ void Inventurdaten::remove(sqlite3* db, int listid)
   string statement = "delete from daten where art = '" + Art + "' and einheit = '" + Einheit + "' and listid = " + 
                       to_string(listid);
   const char * statementStr = statement.c_str();
-  sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
+  sqlite3_prepare_v2(db, statementStr, static_cast<int>(strlen(statementStr)), &stmt, NULL);
   if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Da ist etwas schiefgelaufen\n";
 }
 
@@ -181,7 +183,7 @@ void Inventurdaten::update(sqlite3* db, int listid)
   string statement = "update daten set menge = " + to_string(Menge) + ", verfallsdatum = " + to_string(Verfallsdatum) + 
                      " where art = '" + Art + "' and einheit = '" + Einheit + "' and listid = " + to_string(listid);
   const char * statementStr = statement.c_str();
-  sqlite3_prepare_v2(db, statementStr, strlen(statementStr), &stmt, NULL);
+  sqlite3_prepare_v2(db, statementStr, static_cast<int>(strlen(statementStr)), &stmt, NULL);
   if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Da ist etwas schiefgelaufen\n";
 }
 
