@@ -14,11 +14,12 @@ Es gibt zwei Tabellen:
    - Verfallsdatum
 ## Konkrete Umsetzung
 Folgenden Befehle müssen in der Sqlite-Konsole angegeben werden um das Schema zu erzeugen
-1. ```create table liste(titel text);```
+1. ```create table liste(titel text, unique(titel));```
 2. ```create table daten(art text, menge double, einheit text, verfallsdatum integer, listid integer, foreign key (listid) references liste(rowid));```
+Inzwischen erzeugt das Programm die Tabellen aber auch von selbst. 
 ## Nutzung
 ### Beispiele
-- ```insert into liste values('ist');```
+- ```insert or ignore into liste values('ist');```
 - ```select rowid, titel from liste;```
 - ```insert into daten values ('Rindergulasch', 500, 'g', 0, 1);```
 - ```select rowid, art, menge, einheit, verfallsdatum from daten;```

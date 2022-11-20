@@ -27,8 +27,8 @@ Listenfunktionen::Listenfunktionen(sqlite3* database, const string& verb, const 
                       {
                         listid = sqlite3_column_int64(idstmt, 0);
                       }
-                      else cout << "Es ist etwas schiefgelaufen\n";}
-          );
+                      else cout << "Es ist etwas schiefgelaufen\n";
+                    });
   t.join();
   db = database;
   Liste = liste;

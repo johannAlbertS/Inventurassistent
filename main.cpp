@@ -5,6 +5,7 @@
 #include "Funktionen.h"
 #include <string.h>
 #include <sqlite3.h>
+#include <thread>
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -17,6 +18,8 @@ int main(int argc, char *argv[])
     }
     sqlite3* database;
     sqlite3_open("Daten.db", &database);
+    thread t1(createDBSchemeifnotexists, database);
+    t1.join();
     Listenfunktionen Data(database, "gelagert", "ist", true);
     Listenfunktionen Soll(database, "als benötigt gespeichert", "soll", false);
     Listenfunktionen Muss(database, "gebraucht", "muss", false);

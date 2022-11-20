@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <cstring>
 #include "Funktionen.h"
 using namespace std;
 
@@ -87,4 +89,35 @@ void interactivemode(Listenfunktionen& data, Listenfunktionen& soll, Listenfunkt
                cout << "x, a, s, k oder b sonst nichts\n";
         }
     } while (Abbruch == false);
+}
+
+void createDBSchemeifnotexists(sqlite3* db)
+{
+    //Wenn die Tabelle noch nicht existierte so wird sie neu angelegt
+    thread Schema1([&](){sqlite3_stmt* stmt;
+                         const char * stmtStr = {"create table if not exists liste(titel text, unique(titel))"};
+                         sqlite3_prepare_v2(db, stmtStr, static_cast<int>(strlen(stmtStr)), &stmt, NULL);
+                         if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Fehler";
+                        });
+    Schema1.join();
+    thread Schema2([&](){sqlite3_stmt* stmt;
+                         const char * stmtStr = {"create table if not exists daten(art text, menge double, einheit text, verfallsdatum integer, listid integer, foreign key (listid) references liste(rowid))"};
+                         sqlite3_prepare_v2(db, stmtStr, static_cast<int>(strlen(stmtStr)), &stmt, NULL);
+                         if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Fehler";
+                        });
+    Schema2.join();
+    //Die einzelnen Listen werden angelegt. Dabei wird mit or ignore dafür gesorgt, dass sie immer nur einmal vorkommen.
+    thread Liste([&](){sqlite3_stmt* stmt;
+                       const char * stmtStr = {"insert or ignore into liste values(?)"};
+                       sqlite3_prepare_v2(db, stmtStr, static_cast<int>(strlen(stmtStr)), &stmt, NULL);
+                       sqlite3_bind_text(stmt, 1, "ist", static_cast<int>(strlen("ist")), NULL);
+                       if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Fehler";
+                       sqlite3_reset(stmt);
+                       sqlite3_bind_text(stmt, 1, "soll", static_cast<int>(strlen("soll")), NULL);
+                       if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Fehler";
+                       sqlite3_reset(stmt);
+                       sqlite3_bind_text(stmt, 1, "muss", static_cast<int>(strlen("muss")), NULL);
+                       if(sqlite3_step(stmt) != SQLITE_DONE) cout << "Fehler";
+                       });
+    Liste.join();
 }
