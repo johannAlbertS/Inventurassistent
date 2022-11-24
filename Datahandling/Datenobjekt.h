@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <fstream>
 #include <ctime>
 #include <sqlite3.h>
 using namespace std;
@@ -39,8 +38,9 @@ public:
     //Eingabe des Datums
     void Datumseingabe();
     //Ein/Ausgabe in Files über Streams
-    friend ostream& operator<<(ostream&, Inventurdaten&);
-    friend istream& operator>>(istream&, Inventurdaten&);
+    //friend ostream& operator<<(ostream&, Inventurdaten&);
+    //friend istream& operator>>(istream&, Inventurdaten&);
+    void eingeben();
     //Funktionen zum Schreiben in der Datenbank
     void insert(sqlite3*, int);
     void remove(sqlite3*, int);

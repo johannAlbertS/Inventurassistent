@@ -1,6 +1,7 @@
 #include <cstring>
 #include <iostream>
-#include <fstream>
+#include <regex>
+#include <stdexcept>
 #include <string>
 #include "Datenobjekt.h"
 using namespace std;
@@ -41,12 +42,40 @@ double Inventurdaten::MengeRaus()
 }
 
 //Streams zum formartierten eingeben
-istream& operator>>(istream& is, Inventurdaten& i)
+/*istream& operator>>(istream& is, Inventurdaten& i)
 {
   cout << "Was ist es? "; is >> i.Art; //getline(is, i.Art);
   cout << "Wie viel davon? ";
   is >> i.Menge >> i.Einheit;
   return is;
+}*/
+
+void Inventurdaten::eingeben()
+{
+  string menge, art, mengeeinheit;
+  cin.ignore();
+  cout << "Was ist es? "; 
+  getline(cin, art); Art = art;
+  cout << '\n';
+  regex doubel("[1-9]{1}[0-9]*\\.?[0-9]*");
+  do
+  {
+    cout << "Wie viel davon? (Format: 'gewicht einheit') ";
+    cin.sync(); 
+    getline(cin, mengeeinheit);
+    cout << mengeeinheit << '\n'; 
+    size_t pos = mengeeinheit.find(" ");
+    if(pos == string::npos) cout << "Falsches Format\n";
+    else 
+    {
+        menge = mengeeinheit.substr(0, pos);
+        cout << menge << '\n';
+    }   
+  } while(regex_match(menge, doubel) == false);
+  Menge = stod(menge);
+  size_t pos  = mengeeinheit.rfind(" ");
+  Einheit = mengeeinheit.substr(pos + 1, mengeeinheit.size());
+  cout << Einheit << '\n';
 }
 
 //Datumseingabe
@@ -96,11 +125,11 @@ void Inventurdaten::Datumseingabe()
 }
 
 //Formartierte Ausgabe über Streams
-ostream& operator<<(ostream& os, Inventurdaten& i)
+/*ostream& operator<<(ostream& os, Inventurdaten& i)
 {
   cout << i.Menge << " " << i.Einheit << " " << i.Art << endl;
   return os;
-}
+}*/
 
 //Operatoren
 bool Inventurdaten::operator==(Inventurdaten &i)
@@ -141,7 +170,7 @@ Inventurdaten Inventurdaten::minus(Inventurdaten& i)
   return temp;
 }
 
-//Schreiben von Daten in File über Streams
+/*//Schreiben von Daten in File über Streams
 ofstream& operator<<(ofstream& of, Inventurdaten& i)
 {
   of << i.Art << "\n" << i.Menge << " " << i.Einheit << " " << i.Verfallsdatum << endl;
@@ -153,7 +182,7 @@ ifstream& operator>>(ifstream& is, Inventurdaten& i)
 {
   is >> i.Art >> i.Menge >> i.Einheit >> i.Verfallsdatum;
   return is;
-}
+}*/
 
 //Funktionen zum Schreiben in der Datenbank
 //Prinzip Statement erzeugen, mit den eigenen Daten anreichern, ausführen und schauen ob es erfolgreich war

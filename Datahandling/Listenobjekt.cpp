@@ -39,7 +39,8 @@ Listenfunktionen::Listenfunktionen(sqlite3* database, const string& verb, const 
 void Listenfunktionen::anhaengen()
 {
   Inventurdaten tempObj;
-  cin >> tempObj;
+  //cin >> tempObj;
+  tempObj.eingeben();
   tempObj.Datumseingabe();
   bool gefunden = false;
   for(auto it = begin(l); it != end(l); ++it)
@@ -149,7 +150,7 @@ void Listenfunktionen::loeschen()
   }
   Inventurdaten tempObj;
   cout << "Was soll raus\n";
-  cin >> tempObj;
+  tempObj.eingeben();
   bool gefunden = false;
   for(list<Inventurdaten>::iterator it = begin(l); it != end(l); ++it)
   {
