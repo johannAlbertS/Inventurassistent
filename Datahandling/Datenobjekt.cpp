@@ -50,11 +50,11 @@ double Inventurdaten::MengeRaus()
   return is;
 }*/
 
-void Inventurdaten::eingeben()
+void Inventurdaten::eingeben(bool sthinbuffer)
 {
   string menge, art, mengeeinheit;
-  cin.ignore();
-  cout << "Was ist es? "; 
+  if(sthinbuffer == true) cin.ignore();
+  cout << "Was ist es? ";
   getline(cin, art); Art = art;
   cout << '\n';
   regex doubel("[1-9]{1}[0-9]*\\.?[0-9]*");
@@ -62,20 +62,18 @@ void Inventurdaten::eingeben()
   {
     cout << "Wie viel davon? (Format: 'gewicht einheit') ";
     cin.sync(); 
-    getline(cin, mengeeinheit);
-    cout << mengeeinheit << '\n'; 
+    getline(cin, mengeeinheit); 
     size_t pos = mengeeinheit.find(" ");
     if(pos == string::npos) cout << "Falsches Format\n";
     else 
     {
         menge = mengeeinheit.substr(0, pos);
-        cout << menge << '\n';
     }   
   } while(regex_match(menge, doubel) == false);
   Menge = stod(menge);
   size_t pos  = mengeeinheit.rfind(" ");
   Einheit = mengeeinheit.substr(pos + 1, mengeeinheit.size());
-  cout << Einheit << '\n';
+  cout << '\n';
 }
 
 //Datumseingabe

@@ -26,13 +26,13 @@ class Listenfunktionen
     Listenfunktionen();
     Listenfunktionen(sqlite3*, const string&, const string&, bool);
     //Element an Liste anhängen 
-    void anhaengen();
+    void anhaengen(bool);
     void anhaengenmitgleich(Inventurdaten&);
     //Für die Einkaufsliste
     void Listenvergleich(Listenfunktionen&, Listenfunktionen&);
     //Ausgeben und Loeschen
     void ausgeben();
-    void loeschen();
+    void loeschen(bool);
     void loeschen(Inventurdaten&);
     //Aus Datenbank lesen
     void lesen();

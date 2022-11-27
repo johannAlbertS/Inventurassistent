@@ -36,11 +36,10 @@ Listenfunktionen::Listenfunktionen(sqlite3* database, const string& verb, const 
   zeigeDatum = zD;
 }
 
-void Listenfunktionen::anhaengen()
+void Listenfunktionen::anhaengen(bool sthinbuffer)
 {
   Inventurdaten tempObj;
-  //cin >> tempObj;
-  tempObj.eingeben();
+  tempObj.eingeben(sthinbuffer);
   tempObj.Datumseingabe();
   bool gefunden = false;
   for(auto it = begin(l); it != end(l); ++it)
@@ -142,36 +141,39 @@ void Listenfunktionen::ausgeben()
 
 //Da in main.cpp ausgeben() vor loeschen() aufgerufen wird kommt keine Meldung wenn leer
 //Ansonsten Iterieren und loeschen
-void Listenfunktionen::loeschen()
+void Listenfunktionen::loeschen(bool sthinbuffer)
 {
   if (l.empty())
   {
     cout << "Nichts drinnen\n";
   }
-  Inventurdaten tempObj;
-  cout << "Was soll raus\n";
-  tempObj.eingeben();
-  bool gefunden = false;
-  for(list<Inventurdaten>::iterator it = begin(l); it != end(l); ++it)
+  else
   {
-    if(it->operator==(tempObj) == true && it->operator-(tempObj) > 0)
+    Inventurdaten tempObj;
+    cout << "Was soll raus\n";
+    tempObj.eingeben(sthinbuffer);
+    bool gefunden = false;
+    for(list<Inventurdaten>::iterator it = begin(l); it != end(l); ++it)
     {
-      it->operator-=(tempObj);
-      it -> update(db, listid);
-      gefunden = true;
-      break;
+      if(it->operator==(tempObj) == true && it->operator-(tempObj) > 0)
+      {
+        it->operator-=(tempObj);
+        it -> update(db, listid);
+        gefunden = true;
+        break;
+      }
+      else if(it->operator==(tempObj) == true && it->operator-(tempObj) <= 0)
+      {
+        it -> remove(db, listid);
+        l.erase(it);
+        gefunden = true;
+        break;
+      }
     }
-    else if(it->operator==(tempObj) == true && it->operator-(tempObj) <= 0)
+    if(gefunden == false)
     {
-      it -> remove(db, listid);
-      l.erase(it);
-      gefunden = true;
-      break;
+      cout << "Dieses Objekt ist nicht in der Tiefkühltruhe\n";
     }
-  }
-  if(gefunden == false)
-  {
-    cout << "Dieses Objekt ist nicht in der Tiefkühltruhe\n";
   }
 }
 

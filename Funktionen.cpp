@@ -39,7 +39,12 @@ void interactivemode(Listenfunktionen& data, Listenfunktionen& soll, Listenfunkt
         string Wahlstr;
         char Wahl;
         cin >> Wahlstr;
-        Wahl = Wahlstr[0];
+        if(Wahlstr.size() > 1)
+        {
+            cout << "EINEN Buchstaben\n";
+            continue;
+        } 
+        else Wahl = Wahlstr[0]; 
         string Wahlstr2;
         char Wahl2;
         switch(Wahl)
@@ -54,32 +59,38 @@ void interactivemode(Listenfunktionen& data, Listenfunktionen& soll, Listenfunkt
             case 'k': muss.ausgeben();
                 break;
             case 'n':
-                cout << "In die Tiefkühltruhe(t) oder in den Sollbestand(s)?\n";
-                cin >> Wahlstr2;
+                do
+                {
+                    cout << "In die Tiefkühltruhe(t) oder in den Sollbestand(s)?\n";
+                    cin >> Wahlstr2;
+                } while(Wahlstr2.size() > 1);
                 Wahl2 = Wahlstr2[0];
                 switch(Wahl2)
                 {
                     case 't':
-                       data.anhaengen();
+                       data.anhaengen(true);
                        break;
                     case 's':
-                       soll.anhaengen();
+                       soll.anhaengen(true);
                        break;
                     default: cout << "Nur s oder t erlaubt\n";
                 }
                 soll.Listenvergleich(data, muss);
                 break;
             case 'r':
-                cout << "Aus der Tiefkühltruhe(t) oder aus dem Sollbestand(s)?\n";
-                cin >> Wahlstr2;
+                do
+                {
+                    cout << "Aus der Tiefkühltruhe(t) oder aus dem Sollbestand(s)?\n";
+                    cin >> Wahlstr2;
+                } while(Wahlstr2.size() > 1);
                 Wahl2 = Wahlstr2[0];
                 switch(Wahl2)
                 {
                     case 't':
-                       data.loeschen();
+                       data.loeschen(true);
                        break;
                     case 's':
-                       soll.loeschen();
+                       soll.loeschen(true);
                        break;
                     default: cout << "Nur s oder t erlaubt\n";
                 }

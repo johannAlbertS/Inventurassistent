@@ -33,12 +33,12 @@ int main(int argc, char *argv[])
         {
             if(strcmp(argv[2], "daten") == 0)
             {
-                Data.anhaengen();
+                Data.anhaengen(false);
                 Soll.Listenvergleich(Data, Muss);
             }
             else if(strcmp(argv[2], "sollbestand") == 0)
             {
-                Soll.anhaengen();
+                Soll.anhaengen(false);
                 Soll.Listenvergleich(Data, Muss);
             }
             else cout << "Falsches Argument\n";
@@ -62,12 +62,12 @@ int main(int argc, char *argv[])
         {
             if(strcmp(argv[2], "daten") == 0)
             {
-                Data.loeschen();
+                Data.loeschen(false);
                 Soll.Listenvergleich(Data, Muss);
             }
             else if(strcmp(argv[2], "sollbestand") == 0)
             {
-                Soll.loeschen();
+                Soll.loeschen(false);
                 Soll.Listenvergleich(Data, Muss);
             }
             else cout << "Falsches Argument\n";
