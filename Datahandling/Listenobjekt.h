@@ -34,6 +34,7 @@ class Listenfunktionen
     void ausgeben();
     void loeschen(bool);
     void loeschen(Inventurdaten&);
+    void allesloeschen();
     //Aus Datenbank lesen
     void lesen();
 };

@@ -79,6 +79,7 @@ void Listenfunktionen::anhaengenmitgleich(Inventurdaten& i)
 
 void Listenfunktionen::Listenvergleich(Listenfunktionen& mit, Listenfunktionen& zu)
 {
+  if(l.empty()) zu.allesloeschen();
   for(auto it = begin(l); it != end(l); ++it)
   {
     bool gefunden = false;
@@ -91,7 +92,7 @@ void Listenfunktionen::Listenvergleich(Listenfunktionen& mit, Listenfunktionen& 
         gefunden = true;
         break;
       }
-      else if(*it == *it && it->operator-(*it2) <= 0)
+      else if(*it == *it2 && it->operator-(*it2) <= 0)
       {
         zu.loeschen(*it);
         gefunden = true;
@@ -188,6 +189,11 @@ void Listenfunktionen::loeschen(Inventurdaten& i)
       break;
     }
   }
+}
+
+void Listenfunktionen::allesloeschen()
+{
+  l.clear();
 }
 
 //Statement erstellen und ausführen sollange es noch was neues gibt
