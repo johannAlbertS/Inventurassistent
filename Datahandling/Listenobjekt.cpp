@@ -25,7 +25,7 @@ Listenfunktionen::Listenfunktionen(sqlite3* database, const string& verb, const 
                       sqlite3_prepare_v2(database, idstatementStr, static_cast<int>(strlen(idstatementStr)), &idstmt, NULL);
                       if(sqlite3_step(idstmt) == SQLITE_ROW)
                       {
-                        listid = sqlite3_column_int64(idstmt, 0);
+                        listid = (long) sqlite3_column_int64(idstmt, 0);
                       }
                       else cout << "Es ist etwas schiefgelaufen\n";
                     });
