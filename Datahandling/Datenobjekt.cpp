@@ -1,4 +1,5 @@
 #include <cstring>
+#include <ctime>
 #include <iostream>
 #include <regex>
 #include <stdexcept>
@@ -30,7 +31,11 @@ void Inventurdaten::DatenRaus(bool mitDatum)
     else
     {
       char datum[26];
+      #ifdef _WIN32
+      ctime_s(&Verfallsdatum, datum);
+      #else
       ctime_r(&Verfallsdatum, datum);
+      #endif
       cout << "Verfällt am: " << datum << '\n';
     } 
   }
