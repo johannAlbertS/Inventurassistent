@@ -193,6 +193,10 @@ void Listenfunktionen::loeschen(Inventurdaten& i)
 
 void Listenfunktionen::allesloeschen()
 {
+  for(auto it = begin(l); it != end(l); it++) 
+  {
+    it->remove(db, listid);
+  } 
   l.clear();
 }
 
