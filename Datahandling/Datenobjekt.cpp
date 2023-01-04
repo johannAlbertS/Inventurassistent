@@ -32,7 +32,7 @@ void Inventurdaten::DatenRaus(bool mitDatum)
     {
       char datum[26];
       #ifdef _WIN32
-      ctime_s(&Verfallsdatum, datum);
+      ctime_s(datum, sizeof(datum), &Verfallsdatum);
       #else
       ctime_r(&Verfallsdatum, datum);
       #endif
